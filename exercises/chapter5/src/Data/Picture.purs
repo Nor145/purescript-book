@@ -114,3 +114,66 @@ bounds = foldl combine emptyBounds
   where
   combine :: Bounds -> Shape -> Bounds
   combine b shape = union (shapeBounds shape) b
+
+-- 5.5
+
+-- 1.
+factorial :: Number -> Number
+factorial 0 = 1
+factorial n = n * factorial (n-1)
+
+-- 2.
+binomial :: Number -> Number -> Number
+binomial n k | k > n = 0
+binomial n 0 = 1
+binomial n k = binomial (n-1) (k-1) + binomial (n-1) k
+
+-- 5.9
+
+-- 1.
+sameCity :: Person -> Person -> Boolean
+sameCity { address: { city: x }} { address: { city: y }}
+  | x == y    = true
+  | otherwise = false
+
+-- 3.
+fromSingleton :: forall a. a -> Array a -> a
+fromSingleton def [x] = x
+fromSingleton def _ = def
+
+-- 5.14
+
+-- 1.
+origin :: Point
+origin = Point { x: 0.0, y: 0.0 }
+
+circle :: Shape
+circle = Circle origin 10.0
+
+-- 2.
+scaleAndCentre :: Shape -> Shape
+scaleAndCentre (Circle _ r) = Circle origin (r * 2.0)
+scaleAndCentre (Rectangle _ w h) = Rectangle origin (w * 2.0) (h * 2.0)
+scaleAndCentre (Line (Point start) (Point end)) = Line transformStart transformEnd where
+  xdiff           = start.x - end.x
+  ydiff           = start.y - end.y
+  transformStart  = Point { x: -xdiff, y: -ydiff }
+  transformEnd    = Point { x: xdiff, y: ydiff }
+scaleAndCentre (Text _ str) = Text origin str
+
+-- 3.
+extractString :: Shape -> Maybe String
+extractString (Text _ str) = Just str
+extractString _ = Nothing
+
+-- 5.17
+
+-- 1.
+area :: Shape -> Number
+area (Circle _ r) = pi * (pow r 2.0)
+area (Rectangle _ w h) = w * h
+area _ = 0.0
+
+-- 2.
+
+
